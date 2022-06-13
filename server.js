@@ -1,22 +1,33 @@
 const express = require("express");
 const app = express();
+
 const http = require("http");
 const server = http.createServer(app);
-const { Server } = require("socket.io");
-// const io = new Server(server);
-// const { default: swal } = require("sweetalert");
 
+const { Server } = require("socket.io");
 const io = new Server(server, {
 	cors: {
 		origin: "http://localhost:3000",
 		methods: ["GET", "POST"],
 	},
 });
-io.on("connection", socket => {
-	console.log(`User ${socket.id} connected`);
-	socket.on("disconnect", () => {
-		console.log(`User ${socket.id} disconnected`);
+
+
+const onStart = (socket)=>{
+	socket.on("join-room", room => {
+		socket.join(room);
 	});
+	socket.emit("chat-bot", "Welcome to chat")
+	socket.broadcast.emit("chat-bot", "A user has joined the chat")
+}
+
+
+io.on("connection", socket => {
+
+	socket.on("disconnect", () => {
+		io.emit("userLeft", "User has left")
+	});
+
 	socket.on("send-url", (id, room) => {
 		io.to(room).emit("recv-url", id);
 	});
@@ -33,9 +44,7 @@ io.on("connection", socket => {
 		io.to(room).emit("buffer-recv", play);
 	});
 
-	socket.on("join-room", room => {
-		socket.join(room);
-	});
+	onStart(socket);
 });
 
 server.listen(5000 , () => {

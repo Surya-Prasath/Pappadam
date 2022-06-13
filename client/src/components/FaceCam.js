@@ -1,11 +1,11 @@
 import React from "react";
 
-const Spotify = ()=>{
+const FaceCam = ()=>{
     return(
         <div>
-            <h1>Spotify</h1>
+            <h1>FaceCam</h1>
         </div>
     )
 }
 
-export default Spotify;
+export default FaceCam;

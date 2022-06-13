@@ -1,11 +1,11 @@
 import React from "react";
 
-const Spotify = ()=>{
+const Netflix = ()=>{
     return(
         <div>
-            <h1>Spotify</h1>
+            <h1>Netflix</h1>
         </div>
     )
 }
 
-export default Spotify;
+export default Netflix;

@@ -1,23 +1,21 @@
 import React, { Fragment } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Landing from "./components/Landing";
-import Navbar from "./components/Navbar";
-import Youtube from "./components/Youtube";
-import Spotify from "./components/Spotify";
-import "./css/App.css";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+// import "./css/App.css";
+import Main from "./components/Main";
+import HomePage from "./components/HomePage";
+import Header from "./components/Header"
 
 const App = () => {
 	return (
-		<Router>
+		<BrowserRouter>
 			<Fragment>
-				<Navbar />
+				<Header/>
 				<Routes>
-					<Route path='/' element={<Landing />} />
-					<Route path='/youtube' element={<Youtube />} />
-					<Route path='/spotify' element={<Spotify />} />
+					<Route path={"/"} element={<HomePage/>} />
+					<Route path='/testing' element={<Main feature={"Youtube"}/>} />
 				</Routes>
 			</Fragment>
-		</Router>
+		</BrowserRouter>
 	);
 };
 
