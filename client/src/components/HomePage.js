@@ -9,25 +9,30 @@ import {
 import {useNavigate} from "react-router-dom";
 
 const HomePage = ()=>{
+    let navigate = useNavigate()
     const features = ["Youtube", "Spotify", "Netflix", "Something", "Nothing"]
-    const navigate = useNavigate()
-    const [id, setId] = useState("public");
+
+    const [roomId, setRoomId] = useState("public");
     const [feature, setFeature] = useState("Youtube")
 
-    const idChange = (event)=>{
-        setId(event.target.value)
+    const set_room_id = (event)=>{
+        setRoomId(event.target.value)
     }
-
-    const featureChange = (event)=>{
+    //Changes the media user wants to use
+    const set_feature = (event)=>{
         setFeature(event.target.innerHTML)
     }
-    const press = (event)=>{
+
+    const keyPress = (event)=>{
         if (event.key==="Enter"){
             submit()
         }
     }
+
     const submit = ()=>{
-        navigate("/testing", {state: {feature: feature, roomId: id}})
+        sessionStorage.setItem("room", roomId)
+        sessionStorage.setItem("feature", feature)
+        navigate("/testing", {state: {feature: feature, roomId: roomId}})
     }
     return (
         <div className="home-page relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12">
@@ -52,7 +57,7 @@ const HomePage = ()=>{
                             <Tabs value="html">
                                 <TabsHeader className={"gap-3 w-fit"} >
                                     {features.map(option=> (
-                                        <Tab key={option} value={option} onClick={featureChange}>
+                                        <Tab key={option} value={option} onClick={set_feature}>
                                             <Typography>{option}</Typography>
                                         </Tab>
                                     ))}
@@ -60,7 +65,7 @@ const HomePage = ()=>{
                                 <TabsBody className={"backdrop-blur"} >
                                     {features.map(option=> (
                                         <TabPanel key={option} value={option} className={"flex gap-2"} >
-                                            <Input size="md" variant="outlined" label="Room ID" color="pink" icon={<i className="fas fa-heart" />} onChange={idChange} onKeyPress={press}/>
+                                            <Input size="md" variant="outlined" label="Room Name" color="pink" icon={<i className="fas fa-heart" />} onChange={set_room_id} onKeyPress={keyPress}/>
                                             <Button variant="gradient" size="sm" color={"pink"} onClick={submit}>
                                                 Create
                                             </Button>

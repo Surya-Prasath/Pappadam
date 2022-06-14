@@ -1,6 +1,5 @@
 /* This example requires Tailwind CSS v2.0+ */
 import React, {useState} from 'react'
-import { useNavigate } from "react-router-dom";
 import { Popover} from '@headlessui/react'
 import {
     ChartBarIcon,
@@ -11,6 +10,7 @@ import {
     ViewGridIcon,
 } from '@heroicons/react/outline'
 import {Button, Input, Menu, MenuHandler, MenuItem, MenuList, Typography, Avatar} from "@material-tailwind/react";
+import {useNavigate} from "react-router-dom";
 
 //Features displayed on Features Navbar
 const features = [
@@ -59,19 +59,20 @@ const downIcon = (
 
 
 export default function Example() {
-    const navigate = useNavigate()
-    const [id, setId] = useState("public");
+    let navigate = useNavigate()
+    const [roomId, setRoomId] = useState("public");
 
-    const roomChange = (event)=>{
-        setId(event.target.value)
+    const set_room_id = (event)=>{
+        setRoomId(event.target.value)
     }
-    const roomPress = (event)=>{
+    const keyPress = (event)=>{
         if (event.key==="Enter"){
-            roomSubmit()
+            submit()
         }
     }
-    const roomSubmit = ()=>{
-        navigate("/testing", {state: {roomId: id}})
+    const submit = ()=>{
+        sessionStorage.setItem("room", roomId)
+        navigate("/testing", {state: {roomId: roomId}})
     }
 
     return (
@@ -157,8 +158,8 @@ export default function Example() {
 
                     </Popover.Group>
                     <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0 gap-2 w-3">
-                        <Input size="md" variant="outlined" label="Room ID" icon={<i className="fas fa-heart" />} onKeyDown={roomPress} onChange={roomChange}/>
-                        <Button variant="gradient" size="sm" onClick={roomSubmit}>
+                        <Input size="md" variant="outlined" label="Room Name" icon={<i className="fas fa-heart" />} onKeyDown={keyPress} onChange={set_room_id}/>
+                        <Button variant="gradient" size="sm" onClick={submit}>
                             Join
                         </Button>
                     </div>

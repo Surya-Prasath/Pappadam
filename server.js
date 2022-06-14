@@ -12,17 +12,28 @@ const io = new Server(server, {
 	},
 });
 
+const chat = (socket)=>{
+	//sending others message
+	socket.on("message", (room, message)=>{
+		socket.to(room).emit("chat-bot", message);
+		console.log(socket.rooms)
+	})
 
-const onStart = (socket)=>{
-	socket.on("join-room", room => {
-		socket.join(room);
-	});
-	socket.emit("chat-bot", "Welcome to chat")
-	socket.broadcast.emit("chat-bot", "A user has joined the chat")
+
 }
 
-
 io.on("connection", socket => {
+
+	//joining room
+	socket.on("join-room", (room) => {
+		//joining new room
+		socket.join(room);
+		console.log("Joined "+room)
+
+		socket.emit("chat-bot", "Joined "+room)
+	});
+
+	chat(socket)
 
 	socket.on("disconnect", () => {
 		io.emit("userLeft", "User has left")
@@ -43,8 +54,6 @@ io.on("connection", socket => {
 	socket.on("buffer-send", (play, room) => {
 		io.to(room).emit("buffer-recv", play);
 	});
-
-	onStart(socket);
 });
 
 server.listen(5000 , () => {
