@@ -28,7 +28,7 @@ const Chat = ({socket})=>{
     //Previous message state
     const [prevMessages, setPrevMessages] = useState(["Welcome to chat"])
     const set_prev_messages = ()=>{
-        setPrevMessages([...prevMessages, currentMessage])
+        setPrevMessages(prevMessages =>[...prevMessages, currentMessage])
         console.log(prevMessages, "prevMessages")
     }
 
@@ -65,8 +65,8 @@ const Chat = ({socket})=>{
             })
 
             socket.on("chat-bot", message=>{
-                console.log([...prevMessages, message], "before")
-                setPrevMessages([...prevMessages, message])
+                console.log(prevMessages => [...prevMessages, message], "before")
+                setPrevMessages(prevMessages => [...prevMessages, message])
                 console.log(prevMessages, "after")
             })
         }, 0)
