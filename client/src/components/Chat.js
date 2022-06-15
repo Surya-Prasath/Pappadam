@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import Drag from "react-draggable"
 import {
     Menu,
     MenuHandler,
@@ -9,6 +10,7 @@ import {
     Typography,
 } from "@material-tailwind/react";
 import {useLocation} from "react-router-dom";
+import Main from "./Main"
 
 const Chat = ({socket})=>{
     const location = useLocation()
@@ -55,7 +57,7 @@ const Chat = ({socket})=>{
     const runInInterval= () =>{
         setTimeout(()=>{
             console.log(socket.id, "chat")
-            socket.emit("join-room", roomId, sessionStorage.getItem("room"))
+            socket.emit("join-room", roomId, sessionStorage.getItem("prevRoom"))
             console.log("Joining request sent")
 
             socket.on("connect", ()=>{
@@ -63,7 +65,9 @@ const Chat = ({socket})=>{
             })
 
             socket.on("chat-bot", message=>{
+                console.log([...prevMessages, message], "before")
                 setPrevMessages([...prevMessages, message])
+                console.log(prevMessages, "after")
             })
         }, 0)
     }
@@ -74,12 +78,13 @@ const Chat = ({socket})=>{
 
 
     return(
+        <Drag positionOffset={{x: "90%", y: "1150%"}}>
         <div >
             <Menu open={menuOpen} placement={"top"}>
                 <div onClick={set_menu_open}>
                 <MenuHandler>
                     <IconButton>
-                        <i className="fas fa-heart" />
+                        <i className="fas fa-envelope" />
                     </IconButton>
                 </MenuHandler>
                 </div>
@@ -93,6 +98,7 @@ const Chat = ({socket})=>{
                 </MenuList>
             </Menu>
         </div>
+        </Drag>
     )
 }
 

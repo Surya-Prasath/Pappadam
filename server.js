@@ -16,7 +16,6 @@ const chat = (socket)=>{
 	//sending others message
 	socket.on("message", (room, message)=>{
 		socket.to(room).emit("chat-bot", message);
-		console.log(socket.rooms)
 	})
 
 
@@ -25,7 +24,10 @@ const chat = (socket)=>{
 io.on("connection", socket => {
 
 	//joining room
-	socket.on("join-room", (room) => {
+	socket.on("join-room", (room, prevRoom) => {
+		//leaving previous room
+		socket.leave(prevRoom)
+		console.log("Left "+prevRoom)
 		//joining new room
 		socket.join(room);
 		console.log("Joined "+room)

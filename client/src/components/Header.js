@@ -71,6 +71,7 @@ export default function Example() {
         }
     }
     const submit = ()=>{
+        sessionStorage.setItem("prevRoom", sessionStorage.getItem("room"))
         sessionStorage.setItem("room", roomId)
         navigate("/testing", {state: {roomId: roomId}})
     }
