@@ -10,7 +10,7 @@ const Landing = () => {
 				<p className='lead'>Vibe Togther</p>
 				<div className='buttons'>
 					<Link to='/player' className='btn btn-primary'>
-						Youtube
+						Player
 					</Link>
 					<Link to='/spotify' className='btn btn-light'>
 						Spotify
