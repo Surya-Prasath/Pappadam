@@ -1,0 +1,26 @@
+{
+  "name": "parallelplayer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server",
+    "server": "nodemon server",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "author": "PriyanKishoreMS",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "http": "^0.0.1-security",
+    "reactstrap": "^9.1.1",
+    "screenfull": "^6.0.1",
+    "socket.io": "^4.5.1",
+    "sweetalert": "^2.1.2"
+  },
+  "devDependencies": {
+    "concurrently": "^7.2.1"
+  }
+}
